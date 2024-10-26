@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="bg-gray-100">
+    <ActionBar title="{{ t('appTitle') }}" class="bg-blue-600 text-white">
+        <ActionBar.actionItems>
+            <ActionItem tap="onLanguageToggle" ios.position="right" android.position="popup">
+                <Label text="{{ currentLanguage }}" class="text-white p-2" />
+            </ActionItem>
+        </ActionBar.actionItems>
+    </ActionBar>
+    
+    <ScrollView>
+        <StackLayout class="p-4 space-y-4">
+            <!-- Ingredients Input -->
+            <Label text="{{ t('ingredients.title') }}" class="text-lg font-bold" />
+            <GridLayout rows="auto" columns="*, auto" class="mb-2">
+                <TextField id="ingredientInput" hint="{{ t('ingredients.placeholder') }}" 
+                    class="input border p-2 rounded" col="0" />
+                <Button text="{{ t('ingredients.addButton') }}" tap="addIngredient" 
+                    class="btn btn-primary bg-blue-500 text-white p-2 rounded" col="1" />
+            </GridLayout>
+            
+            <!-- Ingredients List -->
+            <ListView items="{{ ingredients }}" class="list-group" height="120">
+                <ListView.itemTemplate>
+                    <GridLayout columns="*, auto" class="list-group-item">
+                        <Label text="{{ $value }}" col="0" class="p-2" />
+                        <Button text="✕" tap="removeIngredient" class="text-red-500 p-2" col="1" />
+                    </GridLayout>
+                </ListView.itemTemplate>
+            </ListView>
+
+            <!-- Meal Type -->
+            <Label text="{{ t('mealTypes.title') }}" class="text-lg font-bold" />
+            <ListPicker items="{{ localizedMealTypes }}" selectedIndex="{{ selectedMealTypeIndex }}" 
+                selectedIndexChange="onMealTypeChange" class="p-2" />
+
+            <!-- People Count -->
+            <Label text="{{ t('peopleCount.title') }}" class="text-lg font-bold" />
+            <Slider value="{{ peopleCount }}" minValue="1" maxValue="10" 
+                valueChange="onPeopleCountChange" class="slider m-2" />
+            <Label text="{{ peopleCount + ' ' + t('peopleCount.person') }}" class="text-center" />
+
+            <!-- Cooking Method -->
+            <Label text="{{ t('cookingMethods.title') }}" class="text-lg font-bold" />
+            <ListPicker items="{{ localizedCookingMethods }}" selectedIndex="{{ selectedCookingMethodIndex }}"
+                selectedIndexChange="onCookingMethodChange" class="p-2" />
+
+            <!-- Generate Button -->
+            <Button text="{{ t('buttons.generate') }}" tap="onTapGenerate" 
+                class="btn btn-primary bg-blue-600 text-white p-4 rounded-lg" />
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator busy="{{ isLoading }}" class="m-4" />
+
+            <!-- Recipe Output -->
+            <ScrollView class="border-t border-gray-300 mt-4 p-4" height="300">
+                <Label text="{{ recipe }}" textWrap="true" class="text-gray-800" />
+            </ScrollView>
+        </StackLayout>
+    </ScrollView>
+</Page>
